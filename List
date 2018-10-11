@@ -104,6 +104,26 @@ void reverse(Element<T> *&start)
 	}
 	start = previous;
 }
-  
-  
+ ///// not right 
+  template<class T>
+void merge(Element<T> one, Element<T> other)
+{
+	Element<T>*current = other.start;
+	while(current->next!=nullptr)
+	{
+		if (current->data > current->next->data)
+		{
+			std::cout << "Not sorted"; 
+			return;
+		}
+		current = current->next;
+	}
+	Element<T>* last;
+	while (current->next)
+	{
+		last = current->next;
+		current = current->next;
+	}
+	last->next = other.start;
+}
   
