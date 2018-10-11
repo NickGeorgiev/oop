@@ -60,7 +60,7 @@ void List<T>::erase()
 		first = first->next;
 		delete curr;
 	}
-	first = last = nullpte;
+	first = last = nullptr;
 	count = 0;
 }
 template<class T>
