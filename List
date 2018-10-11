@@ -1,27 +1,30 @@
 
-#include <iostream>
+  #include "stdafx.h"
+#include<iostream>
+
 template<class T>
 class Element
 {
-    T data;
-    Element<T> next;
-    Element(const T&_data,Element<T>*_next):data(_data),next(_next){}
-}
+	T data;
+	Element<T> next;
+	Element(const T&_data, Element<T>*_next) :data(_data), next(_next) {}
+};
 template<class T>
 class List
 {
 private:
-    Element<T>* first;
-    Element<T>* last;
-    int count;
-    void cpy(const List&);
-    void erase();
+	Element<T>* first;
+	Element<T>* last;
+	int count;
+	void cpy(const List<T>&);
+	void erase();
 public:
-    List();
-    List(const&List);
-    List& operator=(const List&);
-    ~List();
-    
+	List();
+	List(const List<T>&);
+	List& operator=(const List<T>&);
+	~List();
+	
+	  ///// to do
     void pushBack(const T& inf);
 	void pushFront(T inf);
 	void pushAfter(int pos, const T& inf);
@@ -32,81 +35,75 @@ public:
 	T& operator[] (int pos);
 	bool member(const T& other);
 	void sort();
-    int getCount()const;
-    
-}
+        int getCount()const;
+ 
+
+
+};
 template<class T>
-void List<T>::cpy(const List&other)
+void List<T>::cpy(const List<T>&other)
 {
-    Element<T>* curr=other.first;
-    while(curr!=nullptr)
-    {
-        pushBack(curr->data);
-        curr=curr->next;
-    }
+	Element<T>* curr = other.first;
+	while (curr != nullptr)
+	{
+		pushBack(curr->data);
+		curr = curr->next;
+	}
 }
 template<class T>
 void List<T>::erase()
 {
-    Element<T>* curr;
-    while(first!=nullptr)
-    {
-        curr=first;
-        first=first->next;
-        delete curr;
-    }
-    first=last=nullpte;
-    count=0;
+	Element<T>* curr;
+	while (first != nullptr)
+	{
+		curr = first;
+		first = first->next;
+		delete curr;
+	}
+	first = last = nullpte;
+	count = 0;
 }
 template<class T>
-List()
+List<T>::List ()
 {
-    first=nullptr;
-    last=nullptr;
-    count=0;
+	first = nullptr;
+	last = nullptr;
+	count = 0;
 }
 template<class T>
-    List(const List &other )
-    {
-        cpy(other);
-    }
-    template<class T>
-    List& operator=(const List&)
-    {
-        if(first==other.first) return *this;
-        erase();
-        cpy(other);
-        return*this;
-    }
-    template<class T>
-    ~List()
-    {
-        erase();
-    }
-    
-    
-    //обръщане на елементите от списък
-
-template<class T>
-class Box
+List<T>::List(const List<T> &other)
 {
-    T data;
-    Box<T> next;
-    Box(const T&elem,Box<T>*_next):data(elem),next(_next){}
+	cpy(other);
+}
+template<class T>
+List<T>& List<T>:: operator=(const List<T>&other)
+{
+	if (first == other.first) return *this;
+	erase();
+	cpy(other);
+	return*this;
+}
+template<class T>
+List<T>::~List()
+{
+	erase();
 }
 
 template<class T>
-void reverse(Box<T>*&start)
+void reverse(Element<T> *&start)
 {
-    Box<T>*previous=nullptr;
-    Box<T>*current=start;
-    Box<T>*incoming;
-    while(current)
-    {
-        incoming=current->next;
-        current->next=previous;
-        previous=current;
-        current=incoming;
-    }
-    start=previous;
+	Element<T>*previous = nullptr;
+	Element<T>*current = start;
+	Element<T>*incoming;
+	while (current)
+	{
+		incoming = current->next;
+		current->next = previous;
+		previous = current;
+		current = incoming;
+	}
+	start = previous;
 }
+  
+  
+  
