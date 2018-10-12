@@ -1,0 +1,93 @@
+// ConsoleApplication9.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include<iostream>
+
+template<class T>
+class Node
+{
+private:
+	T value;
+	Node<T> * next;
+
+	// do not use Destructor
+};
+
+template<class T>
+class Queue
+{
+private:
+	Node<T> *first;
+	Node<T> *last;
+	int size;
+public:
+	Queue();
+	~Queue();
+	void push(const T &);
+	void pop();
+
+};
+template<class T>
+void Queue<T>::push(const T & val)
+{
+	Node<T> *newNode = new Node<T>;
+	size++;
+	newNode->value = val;
+	newNode->next = nullptr;
+	if (last)
+	{			
+		last->next = newNode;
+		last = newNode;		
+	}
+	else
+	{
+		first = newNode;
+		last = first;
+	}
+}
+
+
+template<class T>
+void Queue<T>::pop()
+{
+	size--;
+	if (size != 0)
+	{
+		if (first == last)
+		{
+			delete this->first;
+			first = nullptr;
+			last = first;
+		}
+		else
+		{
+			Node<T> * help = first->next;
+			delete first;
+			first = help;
+		}		
+	}
+	else
+	{
+		std::cout << "Empty queue!";
+	}
+		
+
+}
+template<class T>
+Queue<T>::Queue()
+{
+	first = nullptr;
+	last = nullptr;
+	size = 5;
+}
+template<class T>
+Queue<T>::~Queue()
+{
+	while (first)
+	{
+		pop();
+	}
+}
+
+
