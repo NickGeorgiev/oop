@@ -105,6 +105,23 @@ void reverse(Element<T> *&start)
 	start = previous;
 }
  ///// not right 
+ 
+ void ascending(Element<T> one)
+{
+   Element<T>*current = one.start;
+   Element<T>*incoming = current->next;
+   Element<T>*helper;
+	while(incoming)
+	{
+		if (current->data > incoming->data)
+		{
+		    helper=current;
+		    current=incoming;
+		    incoming=helper;
+		}
+		current = current->next;
+	} 
+}
   template<class T>
 void merge(Element<T> one, Element<T> other)
 {
