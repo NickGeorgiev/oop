@@ -1,5 +1,7 @@
+// list.cpp : Defines the entry point for the console application.
+//
 
-  #include "stdafx.h"
+#include "stdafx.h"
 #include<iostream>
 
 template<class T>
@@ -23,9 +25,11 @@ public:
 	List(const List<T>&);
 	List& operator=(const List<T>&);
 	~List();
-	
-	  ///// to do
-    void pushBack(const T& inf);
+	void ascending(Element<T>);
+	void reverse(Element<T> *&);
+	void merge(Element<T>, Element<T>);
+	///// to do
+	void pushBack(const T& inf);
 	void pushFront(T inf);
 	void pushAfter(int pos, const T& inf);
 	void popBack();
@@ -35,8 +39,8 @@ public:
 	T& operator[] (int pos);
 	bool member(const T& other);
 	void sort();
-        int getCount()const;
- 
+	int getCount()const;
+
 
 
 };
@@ -64,7 +68,7 @@ void List<T>::erase()
 	count = 0;
 }
 template<class T>
-List<T>::List ()
+List<T>::List()
 {
 	first = nullptr;
 	last = nullptr;
@@ -90,7 +94,7 @@ List<T>::~List()
 }
 
 template<class T>
-void reverse(Element<T> *&start)
+void List<T>::reverse(Element<T> *&start)
 {
 	Element<T>*previous = nullptr;
 	Element<T>*current = start;
@@ -104,43 +108,46 @@ void reverse(Element<T> *&start)
 	}
 	start = previous;
 }
- ///// not right 
- 
- void ascending(Element<T> one)
+template<class T>
+void List<T>::ascending(Element<T> one)
 {
-   Element<T>*current = one.start;
-   Element<T>*incoming = current->next;
-   Element<T>*helper;
-	while(incoming)
+	Element<T>*current = one.start;
+	Element<T>*incoming = current->next;
+	Element<T>*helper;
+	while (incoming)
 	{
 		if (current->data > incoming->data)
 		{
-		    helper=current;
-		    current=incoming;
-		    incoming=helper;
-		}
-		current = current->next;
-	} 
-}
-  template<class T>
-void merge(Element<T> one, Element<T> other)
-{
-	Element<T>*current = other.start;
-	while(current->next!=nullptr)
-	{
-		if (current->data > current->next->data)
-		{
-			std::cout << "Not sorted"; 
-			return;
+			helper = current;
+			current = incoming;
+			incoming = helper;
 		}
 		current = current->next;
 	}
+}
+template<class T>
+void List<T>::merge(Element<T> one, Element<T> other) 
+{
+	Element<T>*current = other.start;
+	while (current->next) 
+	{
+		ascending(other);
+	}
 	Element<T>* last;
-	while (current->next)
+	while (current->next) 
 	{
 		last = current->next;
 		current = current->next;
 	}
 	last->next = other.start;
+	while (current->next)
+	{
+		ascending(last);
+	}
 }
-  
+
+int main()
+{
+
+	return 0;
+}
