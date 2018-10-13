@@ -17,6 +17,8 @@ class List
 private:
 	Element<T>* first;
 	Element<T>* last;
+	Element<T>* current;
+
 	int count;
 	void cpy(const List<T>&);
 	void erase();
@@ -27,7 +29,9 @@ public:
 	~List();
 	void ascending(Element<T>);
 	void reverse(Element<T> *&);
-	void merge(Element<T>, Element<T>);
+	List<T> merge(Element<T>, Element<T>);
+	void iterator(Element<T>*);
+	Element<T>* iter();
 	///// to do
 	void pushBack(const T& inf);
 	void pushFront(T inf);
@@ -126,8 +130,9 @@ void List<T>::ascending(Element<T> one)
 	}
 }
 template<class T>
-void List<T>::merge(Element<T> one, Element<T> other) 
+List<T> List<T>::merge(Element<T> one, Element<T> other)
 {
+	Element<T> result;
 	Element<T>*current = other.start;
 	while (current->next) 
 	{
@@ -145,6 +150,28 @@ void List<T>::merge(Element<T> one, Element<T> other)
 		ascending(last);
 	}
 }
+template<class T>
+void List<T>::iterator(Element<T>* p)
+{
+	if (p)
+		current = p;
+	else
+	{
+		current = start;
+	}
+}
+
+template<class T>
+Element<T>* List<T>::iter() //returns current positiion of iterator and moves it with one position
+{
+	Element<T>*p = current;
+	if (current)
+	{
+		current = current->next;
+	}
+	return p;
+}
+
 
 int main()
 {
