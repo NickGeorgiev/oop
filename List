@@ -30,8 +30,15 @@ public:
 	void ascending(Element<T>);
 	void reverse(Element<T> *&);
 	List<T> merge(Element<T>, Element<T>);
+	List<T> merge2(List<T>, List<T>);
 	void iterator(Element<T>*);
 	Element<T>* iter();
+	void toEnd(const T &);
+	List<T> map(T(*f)(T), List<T> &l);
+	List<T> filter(bool(*p)(T), List<T> &l);
+	T accumulate(T(*oper)(T, T), T nvalue, List<T> &l);
+
+
 	///// to do
 	void pushBack(const T& inf);
 	void pushFront(T inf);
@@ -113,7 +120,7 @@ void List<T>::reverse(Element<T> *&start)
 	start = previous;
 }
 template<class T>
-void List<T>::ascending(Element<T> one)
+void List<T>::ascending(Element<T> one) //direct selection
 {
 	Element<T>*current = one.start;
 	Element<T>*incoming = current->next;
@@ -130,28 +137,77 @@ void List<T>::ascending(Element<T> one)
 	}
 }
 template<class T>
-List<T> List<T>::merge(Element<T> one, Element<T> other)
+List<T> List<T>::merge(Element<T> one, Element<T> other) //we accept that for other(list) we do not know if it is sorted :D
 {
-	Element<T> result;
 	Element<T>*current = other.start;
-	while (current->next) 
+	while (current->next)
 	{
-		ascending(other);
+		ascending(other); // sort the other list :D
 	}
 	Element<T>* last;
-	while (current->next) 
+	while (current->next)
 	{
 		last = current->next;
 		current = current->next;
 	}
-	last->next = other.start;
+	last->next = other.start; //we connect the two lists :)
 	while (current->next)
 	{
 		ascending(last);
 	}
 }
+
 template<class T>
-void List<T>::iterator(Element<T>* p)
+List<T> List<T>::merge2(List<T> a, List<T> b)
+{
+	List<T>* result;
+	result = new List<T>();
+	if (a->data <= b->data)
+		result = a;
+	else
+		result = b;
+	Node *first = a, *second = b;
+	while (a && b) {
+		if (first->data <= second->data) {
+			if (first->next == nullptr)
+				break;
+			a = first->next;
+			if (first->next->data > second->next)
+				first->next = second;
+			first = a;
+		}
+		else {
+			if (second->next == nullpte)
+				break;
+			b = second->next;
+			if (second->next->data >= first->data)
+				second->next = first;
+			second = b;
+		}
+	}
+	if (first->next == nulltr)
+		first->next = second;
+	else
+		second->next = first;
+	return result;
+}
+
+template<class T>
+void List<T>::toEnd(const T & el) //insert el(element) to the end of the list 
+{
+	Element<T> *p = end;
+	end = new Element<T>;
+	if (end)
+	{
+		end->data = el;
+		end->next = nullptr;
+	}
+	if (p)		p->data = end;
+	else		start = end;
+
+}
+template<class T>
+void List<T>::iterator(Element<T>* p)//initialization of Iterator
 {
 	if (p)
 		current = p;
@@ -171,7 +227,46 @@ Element<T>* List<T>::iter() //returns current positiion of iterator and moves it
 	}
 	return p;
 }
-
+template<class T>
+List<T> List<T>::map(T(*f)(T), List<T> &l)
+{
+	l.iterator();
+	Element<T>* p = l.iter();
+	List<T> l1;
+	while (p)
+	{
+		l1.toEnd(f(p->data)); //toEnd to write
+		p = p->next;
+	}
+	return l1;
+}
+template<class T>
+List<T> List<T>::filter(bool(*p)(T), List<T> &l)
+{
+	List<T> l1;
+	l.iterator();
+	Element<T>* recent = l.iter();
+	while (recent)
+	{
+		if (p(recent->data))
+			l1.toEnd(p->data);
+		p = p->next;
+	}
+	return l1;
+}
+template<class T>
+T List<T>::accumulate(T(*oper)(T, T), T nvalue, List<T> &l)
+{
+	T s = nvalue;
+	l.iterator();
+	Element<T>* recent = l.iter();
+	while (recent)
+	{
+		s = oper(s, recent->data);
+		recent = recent->next;
+	}
+	return s;
+}
 
 int main()
 {
