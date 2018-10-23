@@ -222,7 +222,7 @@ T List<T>::accumulate(T(*oper)(T, T), T nvalue, List<T> &l)
 template<class T>
 void List<T>::print()
 {
-	List<T>* curr = first;
+	Element<T>* curr = first;
 	while (curr)
 	{
 		std::cout << curr->data << " ";
@@ -300,6 +300,37 @@ List<T> List<T>::merge(Element<T>* one, Element<T>* other) //we accept that for 
 //	}
 //}
 
+
+//Praktikum 
+template<class T>
+Node* List<T>::func(int num)
+{
+	Node<T>* newNode = first;
+
+	while (num)
+	{
+		int temp;
+		temp= num%10;
+		newNode->data =temp;
+		newNode = newNode->next;
+		num /= 10;
+	}
+	void print();
+}
+template<class T>
+int sum(Node* firstNum, Node* secondNum)
+{
+	Node<T>* newNode = new Node<T>;
+	int sum=0;
+	while (firstNum!=nullptr)
+	{
+		sum += firstNum->data;
+		sum += secondNum->data;
+
+	}
+
+
+}
 int main()
 {
 
