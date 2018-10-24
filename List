@@ -5,7 +5,7 @@
 #include<iostream>
 
 template<class T>
-class Element
+struct Element
 {
 	T data;
 	Element<T>* next;
@@ -303,36 +303,61 @@ List<T> List<T>::merge(Element<T>* one, Element<T>* other) //we accept that for 
 
 //Praktikum 
 template<class T>
-Node* List<T>::func(int num)
+N
+template<class T>
+Element<T>* List<T>::func(int num)
 {
-	Node<T>* newNode = first;
+	Element<T>* newNode = first;
+	Element<T>* help = first;
 
 	while (num)
 	{
-		int temp;
-		temp= num%10;
-		newNode->data =temp;
-		newNode = newNode->next;
-		num /= 10;
+		if (newNode->next!=nullptr)
+		{
+			int temp;
+			temp = num % 10;
+			newNode->data = temp;
+			newNode = newNode->next;
+			num /= 10;
+		}
+		else
+			std::cout << "empty";
 	}
-	void print();
+	//must return *link to the first
+
+	return help;
 }
+
 template<class T>
-int sum(Node* firstNum, Node* secondNum)
+int List<T>::sum(Element<T>* firstNum, Element<T>* secondNum)
 {
-	Node<T>* newNode = new Node<T>;
-	int sum=0;
-	while (firstNum!=nullptr)
+	int sum = 0,fNum,sNum;
+	while (firstNum)
 	{
-		sum += firstNum->data;
-		sum += secondNum->data;
-
+		fNum += firstNum->data*(10^size);
+		firstNum = firstNum->next;
+		size--;
 	}
+	while (secondNum)
+	{
+		sNum += secondNum->data*(10 ^ size);
+		secondNum = firstNum->next;
+		size--;
+	}
+	sum = fNum + sNum;
+	return sum;
 
 
 }
+
 int main()
 {
+	List<int> list1;
+	list1.print();
 
+	list1.func(1780);
+	list1.print();
+	std::cout << "Hello world!" << std::endl;
 	return 0;
 }
+
