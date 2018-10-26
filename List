@@ -30,7 +30,7 @@ public:
 	List& operator=(const List<T>&);
 	~List();
 	void reverse(Element<T> *&);
-	List<T> merge(Element<T>, Element<T>);
+	List<T> merge(Element<T>*, Element<T>*);
 	void iterator(Element<T>*);
 	Element<T>* iter();
 	void toEnd(const T &);
@@ -84,7 +84,7 @@ void List<T>::erase()
 {
 	while (first)
 	{
-		Element<T>* curr; = first;
+		Element<T>* curr = first;
 		first = first->next;
 		delete curr;
 	}
@@ -119,7 +119,7 @@ List<T>::~List()
 template<class T>
 bool List<T>::empty()
 {
-	return size == 0;
+	return count == 0;
 }
 template<class T>
 int List<T>::getSize()
@@ -303,61 +303,75 @@ List<T> List<T>::merge(Element<T>* one, Element<T>* other) //we accept that for 
 
 //Praktikum 
 template<class T>
-N
+void List<T>::BubbleSort()
+{
+	Element<T>*iterate = first;
+	while (iterate)
+	{
+		Element<T>* one = first;
+
+		while (one)
+		{
+			if (one->next != nullptr && one->data > one->next->data)
+			{
+				T help = one->data;
+				one->data = one->next->data;
+				one->next->data = help;
+
+			}
+			one = one->next;
+
+		}
+		iterate = iterate->next;
+	}
+	
+}
 template<class T>
 Element<T>* List<T>::func(int num)
 {
-	Element<T>* newNode = first;
-	Element<T>* help = first;
+	erase();
+	first = nullptr;
 
-	while (num)
+	while (num > 0)
 	{
-		if (newNode->next!=nullptr)
+		int temp = num % 10;
+		if (!first)
 		{
-			int temp;
-			temp = num % 10;
-			newNode->data = temp;
-			newNode = newNode->next;
-			num /= 10;
+			first = last = new Element<T>(temp, nullptr);
+			
 		}
-		else
-			std::cout << "empty";
+		else {
+			last->next = new Element<T>(temp, nullptr);
+			last = last->next;
+		}
+		num /= 10;
+		count++;
+			
 	}
-	//must return *link to the first
-
-	return help;
+	return first;
 }
 
 template<class T>
-int List<T>::sum(Element<T>* firstNum, Element<T>* secondNum)
+int List<T>::sum(Element<T>* firstNum)
 {
-	int sum = 0,fNum,sNum;
+	int fNum=0;
 	while (firstNum)
 	{
 		fNum += firstNum->data*(10^size);
 		firstNum = firstNum->next;
 		size--;
 	}
-	while (secondNum)
-	{
-		sNum += secondNum->data*(10 ^ size);
-		secondNum = firstNum->next;
-		size--;
-	}
-	sum = fNum + sNum;
-	return sum;
-
+	return fNum;
 
 }
 
 int main()
 {
-	List<int> list1;
-	list1.print();
-
-	list1.func(1780);
-	list1.print();
-	std::cout << "Hello world!" << std::endl;
-	return 0;
+	List<int> listche;
+	listche.func(654321);	
+	listche.print();
+	std::cout << "Pole";
+	listche.BubbleSort();
+	listche.print();
 }
 
