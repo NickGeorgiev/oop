@@ -1,0 +1,154 @@
+#include"stdafx.h"
+#include <iostream>
+
+template<class T>
+struct Node
+{
+	T value;
+	Node<T> * next;
+};
+template<class T>
+class Stack
+{
+	Node<T>*top;
+	size_t size;
+	void cpy(const Stack<T>&);
+	void erase();
+public:
+	Stack();
+	Stack(const Stack&);
+	Stack<T>& operator=(const Stack<T> &);
+	~Stack();
+	void push(const T& value);
+	void pop();
+	const T& peek()const;
+	T getTop()const;
+	const size_t getSize()const;
+	bool isEmpty();
+
+};
+template <class T>
+void Stack<T>::cpy(const Stack<T>& other)
+{
+	size = other.size;
+	if (size)
+	{
+		top = new Node<T>;
+		top->value = other.top->value;
+		top->next = nullptr;
+
+		Node<T>* help = top;
+		Node<T> *temp = other.top;
+
+		temp = temp->next;
+		while (temp)
+		{
+			Node<T>* nNode = new Node<T>;
+			nNode->value = temp->value;
+			nNode->next = nullptr;
+
+			help->next = nNode;
+			help = help->next;
+			temp = temp->next;
+		}
+	}
+	else
+	{
+		top = nullptr;
+	}
+}
+template <class T>
+void Stack<T>::erase()
+{
+	while (top)
+	{
+		Node<T>* del = top;
+		top = top->next;
+		delete del;
+		size--;
+	}
+
+}
+template <class T>
+Stack<T>::Stack()
+{
+	top = nullptr;
+	size = 0;
+}
+template <class T>
+Stack<T>::Stack(const Stack& other)
+{
+	cpy(other);
+}
+template <class T>
+
+Stack<T>& Stack<T>::operator=(const Stack<T> &)
+{
+	if (this != &other)
+	{
+		erase();
+		cpy(other);
+	}
+	return *this;
+}
+template <class T>
+Stack<T>::~Stack() {
+	erase();
+}
+template <class T>
+void Stack<T>::push(const T& value)
+{
+	Node<T>* temp = new Node<T>;
+	temp->next = top;
+	temp->value = value;
+	top = temp;
+	size++;
+}
+template <class T>
+void Stack<T>::pop() 
+{
+	if(top)
+	{
+		Node<T>* temp = top;
+		top = top->next;
+		delete temp;
+		size--;
+	}
+}
+template <class T>
+const T& Stack<T>::peek()const
+{
+	return top->value;
+}
+template <class T>
+T Stack<T>::getTop()const
+{
+	return top->value;
+}
+template <class T>
+const size_t Stack<T>::getSize()const 
+{
+	return size;
+}
+template <class T>
+bool Stack<T>::isEmpty()
+{
+	return top == nullptr;
+}
+
+
+
+int main()
+{
+	Stack<int> s;
+	std::cout << s.isEmpty();
+	for (int i = 0; i<5; i++) s.push(i);
+	std::cout << "1. size: " << s.getSize() << '\n';
+	s.push(3);
+	s.push(2);
+	s.push(1);
+	std::cout << "top: " << s.getTop()<< '\n';
+	s.pop();
+	std::cout << "3. size: " << s.getSize() << '\n';
+	return 0;
+}
