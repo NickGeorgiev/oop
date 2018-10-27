@@ -42,6 +42,10 @@ public:
 	void print();
 	Element<T>* findMin(Element<T>* first);
 	void sort(Element<T>* first);
+	Element<T>* func(int num);
+	int sum(Element<T>* firstNum);
+	void BubbleSort();
+
 	///// to do
 	void pushBack(const T& inf);
 	void pushFront(T inf);
@@ -324,7 +328,7 @@ void List<T>::BubbleSort()
 		}
 		iterate = iterate->next;
 	}
-	
+
 }
 template<class T>
 Element<T>* List<T>::func(int num)
@@ -338,7 +342,7 @@ Element<T>* List<T>::func(int num)
 		if (!first)
 		{
 			first = last = new Element<T>(temp, nullptr);
-			
+
 		}
 		else {
 			last->next = new Element<T>(temp, nullptr);
@@ -346,7 +350,7 @@ Element<T>* List<T>::func(int num)
 		}
 		num /= 10;
 		count++;
-			
+
 	}
 	return first;
 }
@@ -354,10 +358,10 @@ Element<T>* List<T>::func(int num)
 template<class T>
 int List<T>::sum(Element<T>* firstNum)
 {
-	int fNum=0;
+	int fNum = 0;
 	while (firstNum)
 	{
-		fNum += firstNum->data*(10^size);
+		fNum += firstNum->data*(10 ^ size);
 		firstNum = firstNum->next;
 		size--;
 	}
@@ -367,11 +371,13 @@ int List<T>::sum(Element<T>* firstNum)
 
 int main()
 {
-	List<int> listche;
-	listche.func(654321);	
+	List<int> listche,listche2;
+	listche.func(654);
 	listche.print();
-	std::cout << "Pole";
+	listche2.func(321);
+	std::cout << "sort";
+
 	listche.BubbleSort();
 	listche.print();
-}
 
+}
