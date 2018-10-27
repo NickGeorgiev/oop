@@ -10,6 +10,8 @@ class Node
 private:
 	T value;
 	Node<T> * next;
+	Node(const T & _val, Node<T> *_next = nullptr) :value(_val), next(_next) {}
+
 	// do not use Destructor
 };
 
@@ -29,8 +31,8 @@ public:
 	Queue<T>& operator=(const Queue<T>& other);
 	void push(const T &);
 	void pop();
-	const T& front();
-	const T& back();
+	//const T& front();
+	//const T& back();
 
 };
 template<class T>
@@ -41,9 +43,9 @@ void Queue<T>::push(const T & val)
 	newNode->value = val;
 	newNode->next = nullptr;
 	if (last)
-	{			
+	{
 		last->next = newNode;
-		last = newNode;		
+		last = newNode;
 	}
 	else
 	{
@@ -70,43 +72,43 @@ void Queue<T>::pop()
 			Node<T> * help = first->next;
 			delete first;
 			first = help;
-		}		
+		}
 	}
 	else
 	{
 		std::cout << "Empty queue!";
 	}
-		
+
 
 }
-template <claass T> 
-Queue<T>::cpy(const Queue<T>& other)
+template <class T>
+void Queue<T>::cpy(const Queue<T>& other)
 {
-	size=other.size;
-	if(size)
+	size = other.size;
+	if (size)
 	{
-		first=new Node<T>;
-		Node<T>* temp=other.first;
-		Node<T>* newNode=first;
-		
-		while(temp->next)
+		first = new Node<T>;
+		Node<T>* temp = other.first;
+		Node<T>* newNode = first;
+
+		while (temp->next)
 		{
-			newNode->value=temp->value;
-			newNode->next=new Node<T>;
-			newNode=newNode->next;
-			temp=temp->next;
+			newNode->value = temp->value;
+			newNode->next = new Node<T>;
+			newNode = newNode->next;
+			temp = temp->next;
 		}
-		newNode->value=temp->value;
-		newNode->next=temp->next;
-		last=newNode;
-		last->next=nullptr;
+		newNode->value = temp->value;
+		newNode->next = temp->next;
+		last = newNode;
+		last->next = nullptr;
 	}
 	else
 	{
-	firsr=last=nullptr;
+		firsr = last = nullptr;
 	}
 }
-template <class>
+template <class T>
 void Queue<T>::erase()
 {
 	while (first)
@@ -132,31 +134,36 @@ Queue<T>::Queue(const Queue<T>& other)
 	cpy(other);
 }
 template<class T>
-Queue<T>&::Queue<T> operator=(const Queue<T>& other)
+Queue<T>& Queue<T>::operator= (const Queue<T>& other)
 {
-	if(this!=&other)
-	{	
-	erase();
-	cpy(other);
+	if (this != &other)
+	{
+		erase();
+		cpy(other);
 	}
 	return *this;
 }
-template <class T> 
-const T& Queue<T>::front()
-{
-	if (first)
-	{
-		return first->value;
-	}
-	return T();
-}
+//template <class T>
+//const T& Queue<T>::front()
+//{
+//	if (first)
+//	{
+//		return first->value;
+//	}
+//	return T();
+//}
+//
+//template <class T>
+//const T& Queue<T>::back()
+//{
+//	if (last)
+//	{
+//		return last->value;
+//	}
+//	return T();
+//}
 
-template <classT> 
-const T& Queue<T>::back()
+int main()
 {
-	if (last)
-	{
-		return last->value;
-	}
-	return T();
+	return 0;
 }
