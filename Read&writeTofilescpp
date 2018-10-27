@@ -10,11 +10,17 @@ class Point
 	int x;
 	int y;
 	std::string name;
-	int sizeName=0;
+	int sizeName = 0;
 public:
-	void savePoint()
+	Point() :x(0), y(0), name("") {};
+	void print()const
 	{
-		std::ofstream now;
+		std::cout << x << std::endl;
+		std::cout << y << std::endl;
+		std::cout << name.data() << std::endl;
+	}
+	void savePoint(std::ofstream & now)
+	{
 		now.open("math.txt", std::ios::binary);
 
 		if (!now.is_open())
@@ -24,8 +30,9 @@ public:
 		else {
 			now.write((char*)&x, sizeof(x));
 			now.write((char*)&y, sizeof(y));
+			int sizeName = name.size();
 			now.write((char*)&sizeName, sizeof(sizeName));
-			now.write(name.data(), sizeof(char) * name.size());
+			now.write(name.data(), sizeof(char) *sizeName);
 		}
 		now.close();
 
@@ -34,20 +41,22 @@ public:
 	{
 		std::ifstream wow;
 		wow.open("math.txt", std::ios::binary | std::ios::ate);
-		char* buffer;
+
 		if (!wow.is_open())
 		{
 			std::cout << "error opening file";
 		}
 		else
 		{
-			wow.read(buffer, size_of(int));
-			x=(int)buffer;
-			wow.read(buffer, size_of(int));
-			y=(int)buffer;
-			wow.read(buffer, size_of(int));
-			sizeName=(int)buffer;
-			wow.read(name.data(),sizeName);
+			wow.read((char*)&x, sizeof(x));
+			wow.read((char*)&y, sizeof(y));
+			int size = 0;
+			wow.read((char*)&sizeName, sizeof(sizeName));
+			char* buffer = new char[sizeName + 1];
+			wow.read(buffer, sizeof(char)*sizeName);
+			buffer[sizeName] = '\0';
+			name.clear();
+			name.append(buffer);
 
 		}
 		wow.close();
@@ -58,35 +67,54 @@ public:
 class Serializer
 {
 private:
+	//std::string FileName;
 	std::queue<Point> q;
 	std::stack<Point> s;
 	std::list<Point> l;
 public:
-
-	void save()
+	//Serializer() :FileName("") {};
+	void saveQueue()
 	{
-		std::ifstream potoche("poli.txt", std::ios::binary);
+		std::ofstream potoche("poli.txt", std::ios::binary|std::ios::out);
 		if (!potoche.is_open())
 		{
 			std::cout << "error";
-			return;
 		}
 		else
 		{
-
+			int size = q.size();
+			potoche.write((char*)&size, sizeof(size));
+			while (!q.empty())
+			{
+				q.front().print();
+				q.front().savePoint(potoche);
+				q.pop();
+			}
 		}
 		potoche.close();
-
 	}
 	void read()
 	{
+		std::ifstream potoche("poli.txt",std::ios::binary|std::ios::out);
+		if (potoche)
+		{
+			size_t size = 0;
+			potoche.read((char*)&size, sizeof(q.size()));
+			for (int i = 0; i < size; i++)
+			{
+				Point p;
+				p.readPoint();
+				q.push(p);
+				q.back().print();
+			}
 
+		}
+		potoche.close();
 	}
-
 };
 
 
 int main()
 {
-    return 0;
+	return 0;
 }
