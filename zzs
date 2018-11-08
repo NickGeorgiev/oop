@@ -1,0 +1,59 @@
+#include "stdafx.h"
+#include<iostream>
+#include<list>
+
+template <class T>
+struct dllnode
+{
+	T data;
+	dllnode<T>*next, *previous;
+	dllnode(const T & _data, dllnode<T>*_next=nullptr, dllnode<T>* _previous=nullptr):data(_data),next(_next),previous(_previous){}
+};
+
+
+template <class T>
+void print(dllnode<T> *start)
+{
+	while (start)
+	{
+		std::cout << start->data;
+		start = start->next;
+	}
+}
+template <class T>
+void print2(dllnode<T> *&start)
+{
+	dllnode<T> *current = start;
+	while (current)
+	{
+		std::cout << current->data;
+		current = current->next;
+	}
+}
+template <class T>
+int count(dllnode<T>*l, int x)
+{
+	int counter = 0;
+	while (l)
+	{
+		if (l->data == x)
+			counter++;
+		l = l->next;
+	}
+	return counter;
+}
+template <class T>
+dllnode<int>* range(int x, int y)
+{
+	if (x <= y) {
+		dllnode<int> *list = new dllnode<int>(x);
+		dllnode<int> *current = list;
+		x++;
+	}
+	while(x<=y)
+	{
+		current->next = new dllnode<int>(x);
+		x++;
+	}
+	return list;
+}
