@@ -7,7 +7,7 @@ struct dllnode
 {
 	T data;
 	dllnode<T>*next, *previous;
-	dllnode(const T & _data, dllnode<T>*_next=nullptr, dllnode<T>* _previous=nullptr):data(_data),next(_next),previous(_previous){}
+	dllnode(const T & _data, dllnode<T>*_next = nullptr, dllnode<T>* _previous = nullptr) :data(_data), next(_next), previous(_previous) {}
 };
 
 
@@ -42,18 +42,97 @@ int count(dllnode<T>*l, int x)
 	}
 	return counter;
 }
-template <class T>
 dllnode<int>* range(int x, int y)
 {
-	if (x <= y) {
-		dllnode<int> *list = new dllnode<int>(x);
-		dllnode<int> *current = list;
-		x++;
-	}
-	while(x<=y)
+
+	dllnode<int> *list = new dllnode<int>(x, nullptr, nullptr);
+	dllnode<int> *current = list;
+	x++;
+
+	while (x <= y)
 	{
-		current->next = new dllnode<int>(x);
+		current->next = new dllnode<int>(x, nullptr, current);
+		current = current->next;
 		x++;
+
 	}
 	return list;
 }
+template <class T>
+void removeAll(dllnode<T>*& l, const T& x)
+{
+	dllnode<T> *list = l;
+	while (list) {
+		dllnode<T> * previousElement = list->previous;
+		dllnode<T> * nextElement = list->next;
+		if (list->data == x) {
+			if (list == l) {
+				l = l->next;
+				list = list->next;
+			}
+			if (previousElement) {
+				previousElement->next = nextElement;
+			}
+			if (nextElement) {
+				nextElement->previous = previousElement;
+			}
+			dllnode<T>* save = list;
+			list = list->next;
+			delete save;
+		}
+		else list = list->next;
+	}
+}
+//template <class T>
+//void append(dllnode*<T> & l1, dllnode<T>* l2)
+//{
+//while (l2)
+//{
+//l1.push_back(l2);
+//l2 = l2->next;
+//}
+//}
+//template <class T>
+//dllnode * concat(dllnode<T>* l1, dllnode<T>* l2){}
+
+
+template <class T>
+void  reverse(dllnode<T> *&l)
+{
+	dllnode<T>*prev = nullptr;
+	dllnode<T>*current = l;
+	dllnode<T>*toCome;
+	while (current)
+	{
+		toCome = current->next;
+		current->next = prev;
+		prev = current;
+		current = toCome;
+	}
+	l = prev;
+}
+template <class T>
+void  removeduplicates(dllnode<T> *&l)
+{
+	dllnode<T> *list = new dllnode<T>(l);
+	dllnode<T> *current = list;
+	while (list)
+	{
+		if (list->data == current->data)
+		{
+			removeAll(list, list->data);
+		}
+		list = list->next;
+	}
+}
+
+
+int main()
+{
+	dllnode<int> *list = range(1,10);
+	print(list);
+	removeAll(list,5);
+	print(list);
+	return 0;
+}
+
