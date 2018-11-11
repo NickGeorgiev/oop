@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include<iostream>
-#include<list>
 
 template <class T>
 struct dllnode
@@ -9,14 +8,140 @@ struct dllnode
 	dllnode<T>*next, *previous;
 	dllnode(const T & _data, dllnode<T>*_next = nullptr, dllnode<T>* _previous = nullptr) :data(_data), next(_next), previous(_previous) {}
 };
+template <class T>
+class Dllist
+{
+	void cpy(const Dllist<T> &other)
+	{
+		first = last = nullptr;
+		size = 0;
+		if (other.first != nullptr)
+		{
+			dllnode<T>* iter = other.first;
+			while (iter)
+			{
+				dllnode<T> * newIter = new dllnode<T>(iter->data);
+				if (!first)
+				{
+					last = first = nullptr;
+				}
+				else
+				{
+					last->next = newIter;
+					newIter->previous = last;
+					last = last->next;
+				}
+				size++;
+				iter = iter->next;
+			}
+		}
 
+	}
+	void erase()
+	{
+		while (first)
+		{
+			dllnode<T>*del = first;
+			first = first->next;
+			delete del;
+		}
+		first = last = nullptr;
+	}
+	dllnode<T> *first, *last;
+	size_t size;
+public:
+	Dllist()
+	{
+		first = last = nullptr;
+	}
+	Dllist(const Dllist<T> &other)
+	{
+		cpy(other);
+	}
+	Dllist & operator=(const Dllist<T> &other)
+	{
+		if (this != &other)
+		{
+			erase();
+			cpy(other);
+		}
+		return *this;
+	}
+	~Dllist()
+	{
+		erase();
+	}
+	void push_back(const T & data)
+	{
+		dllnode<T>*add = new dllnode<T>(data, nullptr, last);
+		if (!first)
+		{
+			last = first = add;
+		}
+		else
+		{
+			last->next = add;
+			last = last->next;
+		}
+		size++;
+	}
+	void push_front(const T & data)
+	{
+		dllnode<T>*addF = dllnode<T>(data, nullptr, first);
+		if (first)
+		{
+			first->previous = addF;
+		}
+		first = addF;
+		if (!last)
+		{
+			last = first;
+		}
+		size++;
+	}
+	void pop_back()
+	{
+		if (first)
+		{
+			if (first == last)
+			{
+				delete first;
+				first = last = nullptr;
+				return;
+			}
+			dllnode<T>*del = last;
+			last = last->previous;
+			last->next = nullptr;
+			delete del;
+			size--;
+		}
+	}
+	void pop_front()
+	{
+		if (first)
+		{
+			if (first == last)
+			{
+				delete first;
+				first = last = nullptr;
+				return;
+			}
+			dllnode<T>*del = first;
+			first=first->next;
+			first->previous = nullptr;
+			delete del;
+			size--;
+
+		}
+	}
+};
 
 template <class T>
 void print(dllnode<T> *start)
 {
 	while (start)
 	{
-		std::cout << start->data;
+		std::cout << start->data << '\n';
 		start = start->next;
 	}
 }
@@ -54,7 +179,6 @@ dllnode<int>* range(int x, int y)
 		current->next = new dllnode<int>(x, nullptr, current);
 		current = current->next;
 		x++;
-
 	}
 	return list;
 }
@@ -68,7 +192,6 @@ void removeAll(dllnode<T>*& l, const T& x)
 		if (list->data == x) {
 			if (list == l) {
 				l = l->next;
-				list = list->next;
 			}
 			if (previousElement) {
 				previousElement->next = nextElement;
@@ -83,19 +206,26 @@ void removeAll(dllnode<T>*& l, const T& x)
 		else list = list->next;
 	}
 }
+template <class T>
+void append(dllnode <T> * l1, dllnode<T> *& l2)
+{
+	dllnode<T> *list = l1;
+	while (list->next)
+	{
+		list = list->next;
+	}
+	list->next = l2;
+}
 //template <class T>
-//void append(dllnode*<T> & l1, dllnode<T>* l2)
+//dllnode * concat(dllnode<T>* l1, dllnode<T>* l2)
 //{
-//while (l2)
-//{
-//l1.push_back(l2);
-//l2 = l2->next;
+//	dllnode<T> *newList = l1;
+//	while (l1)
+//	{
+//		l1 = l1->next;
+//	}
+//	newList->next = l2;
 //}
-//}
-//template <class T>
-//dllnode * concat(dllnode<T>* l1, dllnode<T>* l2){}
-
-
 template <class T>
 void  reverse(dllnode<T> *&l)
 {
@@ -114,25 +244,41 @@ void  reverse(dllnode<T> *&l)
 template <class T>
 void  removeduplicates(dllnode<T> *&l)
 {
-	dllnode<T> *list = new dllnode<T>(l);
-	dllnode<T> *current = list;
+	dllnode<T> *list = l;
 	while (list)
 	{
-		if (list->data == current->data)
+		dllnode<T> *current = l;
+		size_t count = 0;
+		while (current)
 		{
-			removeAll(list, list->data);
+			if (list->data == current->data)
+			{
+				count++;
+			}
+			current = current->next;
+
+			if (count > 1) removeAll(list->next, list->data);
+
 		}
 		list = list->next;
 	}
 }
 
 
+
 int main()
 {
-	dllnode<int> *list = range(1,10);
+	dllnode<int> *list = range(1, 10);
+	dllnode<int> *list2 = range(5, 10);
+
+	//print(list);
+	//removeAll(list, 5);
+	//print(list);
+	//reverse(list);
+	//append(list, list2);
+	removeduplicates(list);
 	print(list);
-	removeAll(list,5);
-	print(list);
+
 	return 0;
 }
 
