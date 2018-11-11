@@ -1,19 +1,20 @@
- #include "stdafx.h"
+// list.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
 #include<iostream>
- template<class T>
+
+template<class T>
 struct Element
-template <class T>
-struct dllnode
 {
 	T data;
 	Element<T>* next;
 	Element(const T&, Element<T>* = nullptr);
-	dllnode<T>*next, *previous;
-	dllnode(const T & _data, dllnode<T>*_next = nullptr, dllnode<T>* _previous = nullptr) :data(_data), next(_next), previous(_previous) {}
 };
 template<class T>
 Element<T>::Element(const T&_data, Element<T>*_next) :data(_data), next(_next) {}
- template<class T>
+
+template<class T>
 class List
 {
 private:
@@ -41,10 +42,12 @@ public:
 	void print();
 	Element<T>* findMin(Element<T>* first);
 	void sort(Element<T>* first);
+
 	Element<T>* func(int num);
 	int sum(Element<T>* firstNum);
 	void BubbleSort();
- 	///// to do
+
+	///// to do
 	void pushBack(const T& inf);
 	void pushFront(T inf);
 	void pushAfter(int pos, const T& inf);
@@ -56,7 +59,10 @@ public:
 	bool member(const T& other);
 	void sort();
 	int getCount()const;
- };
+
+
+
+};
 template<class T>
 void List<T>::cpy(const List<T>& other)
 {
@@ -80,17 +86,12 @@ void List<T>::cpy(const List<T>& other)
 }
 template<class T>
 void List<T>::erase()
-template <class T>
-void print(dllnode<T> *start)
 {
 	while (first)
-	while (start)
 	{
 		Element<T>* curr = first;
 		first = first->next;
 		delete curr;
-		std::cout << start->data << '\n';
-		start = start->next;
 	}
 	first = last;
 }
@@ -119,12 +120,9 @@ template<class T>
 List<T>::~List()
 {
 	erase();
-	std::cout << std::endl;
 }
 template<class T>
 bool List<T>::empty()
-template <class T>
-void print2(dllnode<T> *&start)
 {
 	return count == 0;
 }
@@ -133,28 +131,24 @@ int List<T>::getSize()
 {
 	return count;
 }
- template<class T>
+
+template<class T>
 void List<T>::reverse(Element<T> *&first)
 {
 	Element<T>*previous = nullptr;
 	Element<T>*current = first;
 	Element<T>*incoming;
-	dllnode<T> *current = start;
 	while (current)
 	{
 		incoming = current->next;
 		current->next = previous;
 		previous = current;
 		current = incoming;
-		std::cout << current->data;
-		current = current->next;
 	}
 	first = previous;
 }
 template<class T>
 void List<T>::toEnd(const T & el) //insert el(element) to the end of the list 
-template <class T>
-int count(dllnode<T>*l, int x)
 {
 	if (!first)
 	{
@@ -163,21 +157,14 @@ int count(dllnode<T>*l, int x)
 		count++;
 	}
 	else
-	int counter = 0;
-	while (l)
 	{
 		last->next = new List<T>(data);
 		last = last->next;
 		count++;
-		if (l->data == x)
-			counter++;
-		l = l->next;
 	}
-	return counter;
 }
 template<class T>
 void List<T>::iterator(Element<T>* p)//initialization of Iterator
-dllnode<int>* range(int x, int y)
 {
 	if (p)
 		current = p;
@@ -186,20 +173,15 @@ dllnode<int>* range(int x, int y)
 		current = first;
 	}
 }
- template<class T>
+
+template<class T>
 Element<T>* List<T>::iter() //returns current positiion of iterator and moves it with one position
 {
 	Element<T>*p = current;
 	if (current)
-	dllnode<int> *list = new dllnode<int>(x, nullptr, nullptr);
-	dllnode<int> *current = list;
-	x++;
- 	while (x <= y)
 	{
-		current->next = new dllnode<int>(x, nullptr, current);
 		current = current->next;
-		x++;
- 	}
+	}
 	return p;
 }
 template<class T>
@@ -251,12 +233,9 @@ void List<T>::print()
 		std::cout << curr->data << " ";
 		curr = curr->next;
 	}
-	return list;
 }
 template<class T>
 Element<T>* List<T>::findMin(Element<T>* first)
-template <class T>
-void removeAll(dllnode<T>*& l, const T& x)
 {
 	Element<T> *currMin = first;
 	while (first)
@@ -264,37 +243,15 @@ void removeAll(dllnode<T>*& l, const T& x)
 		if (first->data < currMin->data)
 		{
 			currMin = first;
-	dllnode<T> *list = l;
-	while (list) {
-		dllnode<T> * previousElement = list->previous;
-		dllnode<T> * nextElement = list->next;
-		if (list->data == x) {
-			if (list == l) {
-				l = l->next;
-			}
-			if (previousElement) {
-				previousElement->next = nextElement;
-			}
-			if (nextElement) {
-				nextElement->previous = previousElement;
-			}
-			dllnode<T>* save = list;
-			list = list->next;
-			delete save;
 		}
 		first = first->next;
-		else list = list->next;
 	}
 	return currMin;
 }
 template<class T>
 void List<T>::sort(Element<T>* first)
-template <class T>
-void append(dllnode<T>*& l1, dllnode<T>* l2)
 {
 	while (first)
-	dllnode<T> *list = l1;
-	while (list->next)
 	{
 		Element<T>*currMin = findMin(first);
 		if (first->data > currMin->data)
@@ -304,14 +261,10 @@ void append(dllnode<T>*& l1, dllnode<T>* l2)
 			currMin->data = swapHelp;
 		}
 		first = first->next;
-		list = list->next;
 	}
-	list->next = l2;
- }
+}
 template<class T>
 List<T> List<T>::merge(Element<T>* one, Element<T>* other) //we accept that for other(list) we do not know if it is sorted :D
-template <class t>
-dllnode * concat(dllnode<t>* l1, dllnode<t>* l2)
 {
 	Element<T> *curr = other.first;
 	if (curr == nullptr) return;
@@ -328,7 +281,7 @@ dllnode * concat(dllnode<t>* l1, dllnode<t>* l2)
 			sortList(curr);
 		}
 	}
- }
+}
 //template<class T>
 //void List<T>::sort()
 //{
@@ -351,74 +304,59 @@ dllnode * concat(dllnode<t>* l1, dllnode<t>* l2)
 //		crrNode = crrNode->next;
 //	}
 //}
- //Praktikum 
+
+
+//Praktikum 
 template<class T>
 void List<T>::BubbleSort()
-template <class T>
-void  reverse(dllnode<T> *&l)
 {
 	Element<T>*iterate = first;
 	while (iterate)
-	dllnode<T>*prev = nullptr;
-	dllnode<T>*current = l;
-	dllnode<T>*toCome;
-	while (current)
 	{
 		Element<T>* one = first;
- 		while (one)
+
+		while (one)
 		{
 			if (one->next != nullptr && one->data > one->next->data)
 			{
 				T help = one->data;
 				one->data = one->next->data;
 				one->next->data = help;
- 			}
+
+			}
 			one = one->next;
- 		}
+
+		}
 		iterate = iterate->next;
-		toCome = current->next;
-		current->next = prev;
-		prev = current;
-		current = toCome;
 	}
- 	l = prev;
+
 }
 template<class T>
 Element<T>* List<T>::func(int num)
-template <class T>
-void  removeduplicates(dllnode<T> *& l)
 {
 	erase();
 	first = nullptr;
-	dllnode<T> *list = l;
- 	while (num > 0)
-	while (list)
+
+	while (num > 0)
 	{
 		int temp = num % 10;
 		if (!first)
 		{
 			first = last = new Element<T>(temp, nullptr);
- 		}
+
+		}
 		else {
 			last->next = new Element<T>(temp, nullptr);
 			last = last->next;
-		dllnode<T> *current = l;
-		size_t counter = 0;
-		while (current) {
-			if (list->data == current->data)
-			{
-				counter++;
-			}
-			current = current->next;
 		}
 		num /= 10;
 		count++;
-		if (counter > 1) removeAll(list->next, list->data);
- 		list = list->next;
+
 	}
 	return first;
 }
- template<class T>
+
+template<class T>
 int List<T>::sum(Element<T>* firstNum)
 {
 	int fNum = 0;
@@ -429,22 +367,18 @@ int List<T>::sum(Element<T>* firstNum)
 		size--;
 	}
 	return fNum;
- }
- int main()
+
+}
+
+int main()
 {
-	List<int> listche,listche2;
+	List<int> listche, listche2;
 	listche.func(654);
 	listche.print();
 	listche2.func(321);
 	std::cout << "sort";
- 	listche.BubbleSort();
+
+	listche.BubbleSort();
 	listche.print();
-	dllnode<int> *list = range(1, 10);
-	dllnode<int> *list2 = range(5, 10);
- 	print(list);
-	append(list, list2);
-	print(list);
-	removeduplicates(list);
-	print(list);
-	return 0;
+
 }
