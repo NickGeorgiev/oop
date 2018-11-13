@@ -136,8 +136,6 @@ void List<T>::reverse(Element<T> *&first)
 	first = previous;
 }
 template<class T>
-
-template<class T>
 void List<T>::toEnd(const T & el) //insert el(element) to the end of the list 
 {
 	if (!first)
@@ -256,14 +254,16 @@ void List<T>::sort(Element<T>* first)
 template<class T>
 bool List<T>::ascend()
 {
-	while (first->next)
+	Element<T>*currmin = first;
+	if (currmin == nullptr) return false;
+
+	while (currmin->next)
 	{
-		Element<T>*currmin = first->next;
-		if (first->data >currmin->data)
+		if (currmin->data > currmin->next->data)
 		{
 			return  false;
 		}
-		first = first->next;
+		currmin = currmin->next;
 	}
 	return true;
 }
@@ -365,6 +365,16 @@ bool List<T>::palindrome()
 		one = one->next;
 	}
 }
+template<class T>
+ List<T>getPrevious()
+{
+	Element<T> * one = first;
+	while (one->next)
+	{
+
+	}
+}
+
 
 template<class T>
 void List<T>::push_back(const T& data)
@@ -444,14 +454,14 @@ T List<T>::back() const {
 int main()
 {
 	List<int> listche, listche2;
-	listche.func(12438);
+	listche.func(4321);
 	//listche.pop_back();
-	listche.palindrome();
-	listche.print();
+	//listche.palindrome();
+	//listche.print();
 	//listche2.func(321);
 	//listche2.print();
 
-	//std::cout<< (listche.ascend());
+	std::cout<< (listche.ascend());
 	//std::cout << "sort";
 	//listche.BubbleSort();
 	//listche.print();
