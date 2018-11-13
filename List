@@ -37,7 +37,8 @@ public:
 	List<T> map(T(*f)(T), List<T> &l);
 	List<T> filter(bool(*p)(T), List<T> &l);
 	T accumulate(T(*oper)(T, T), T nvalue, List<T> &l);
-	bool empty();
+	bool empty()const ;
+
 	int getSize();
 	void print();
 	Element<T>* findMin(Element<T>* first);
@@ -53,7 +54,7 @@ public:
 	void pop_front();
 	T front() const;
 	T back() const;
-	bool palindrome(Element<T>* first);
+	bool palindrome();
 };
 template<class T>
 void List<T>::cpy(const List<T>& other)
@@ -114,11 +115,6 @@ List<T>::~List()
 	erase();
 }
 template<class T>
-bool List<T>::empty()
-{
-	return count == 0;
-}
-template<class T>
 int List<T>::getSize()
 {
 	return count;
@@ -139,6 +135,8 @@ void List<T>::reverse(Element<T> *&first)
 	}
 	first = previous;
 }
+template<class T>
+
 template<class T>
 void List<T>::toEnd(const T & el) //insert el(element) to the end of the list 
 {
@@ -350,25 +348,26 @@ int List<T>::sum(Element<T>* firstNum)
 
 }
 template<class T>
-bool List<T>::palindrome(Element<T>* first)
+bool List<T>::palindrome()
 {
-	List<T>*one = first;
+	Element<T> * one = first;
+	Element<T> * current = last;
+	assert(one);
 	while (one)
 	{
-		List<T> *current = last;
-		while (current && current!=one)
+		if (current == one)
 		{
-			if (one->data != current->data)
-				return false;
+			return true;
 		}
-		current = last->previous;
-		first = first->next;
+		else if (one->data != current->data) return false;
+
+		current = current->previous;
+		one = one->next;
 	}
-	return false;
 }
 
 template<class T>
-void List<T>::push_back(const T& data) 
+void List<T>::push_back(const T& data)
 {
 	Element<T>* toAdd = new Element<T>(data);
 	if (!first) {
@@ -426,11 +425,6 @@ void List<T>::pop_front() {
 }
 
 template<class T>
-size_t List<T>::size() const {
-	return count;
-}
-
-template<class T>
 bool List<T>::empty() const {
 	return first == nullptr;
 }
@@ -451,15 +445,16 @@ int main()
 {
 	List<int> listche, listche2;
 	listche.func(12438);
-	listche.pop_back();
+	//listche.pop_back();
+	listche.palindrome();
 	listche.print();
 	//listche2.func(321);
 	//listche2.print();
 
 	//std::cout<< (listche.ascend());
-	std::cout << "sort";
+	//std::cout << "sort";
 	//listche.BubbleSort();
 	//listche.print();
-	
+
 
 }
