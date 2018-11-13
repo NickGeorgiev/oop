@@ -53,8 +53,6 @@ public:
 	void pop_front();
 	T front() const;
 	T back() const;
-	bool empty() const;
-	size_t size() const;
 	bool palindrome(Element<T>* first);
 };
 template<class T>
