@@ -380,7 +380,7 @@ void List<T>::push_back(const T& data)
 		last->next = toAdd;
 		last = last->next;
 	}
-	currentSize++;
+	count++;
 }
 
 template<class T>
@@ -390,7 +390,7 @@ void List<T>::push_front(const T& data) {
 	if (!last) {
 		last = first;
 	}
-	currentSize++;
+	count++;
 }
 
 template<class T>
@@ -408,7 +408,7 @@ void List<T>::pop_back() {
 		delete last;
 		last = tempIterate;
 		last->next = nullptr;
-		currentSize--;
+		count--;
 	}
 }
 
@@ -423,13 +423,13 @@ void List<T>::pop_front() {
 		Element<T>* toDelete = first;
 		first = first->next;
 		delete toDelete;
-		currentSize--;
+		count--;
 	}
 }
 
 template<class T>
 size_t List<T>::size() const {
-	return currentSize;
+	return count;
 }
 
 template<class T>
@@ -453,13 +453,15 @@ int main()
 {
 	List<int> listche, listche2;
 	listche.func(12438);
+	listche.pop_back();
 	listche.print();
-	listche2.func(321);
-	listche2.print();
+	//listche2.func(321);
+	//listche2.print();
 
 	//std::cout<< (listche.ascend());
 	std::cout << "sort";
-	listche.BubbleSort();
-	listche.print();
+	//listche.BubbleSort();
+	//listche.print();
+	
 
 }
