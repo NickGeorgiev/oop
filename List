@@ -46,22 +46,16 @@ public:
 	Element<T>* func(int num);
 	int sum(Element<T>* firstNum);
 	void BubbleSort();
-
-	///// to do
-	void pushBack(const T& inf);
-	void pushFront(T inf);
-	void pushAfter(int pos, const T& inf);
-	void popBack();
-	void popFront();
-	void removeAt(T inf);
-	T& getFromPos(int index);
-	T& operator[] (int pos);
-	bool member(const T& other);
-	void sort();
-	int getCount()const;
-
-
-
+	bool ascend();
+	void push_back(const T& data);
+	void pop_back();
+	void push_front(const T& data);
+	void pop_front();
+	T front() const;
+	T back() const;
+	bool empty() const;
+	size_t size() const;
+	bool palindrome(Element<T>* first);
 };
 template<class T>
 void List<T>::cpy(const List<T>& other)
@@ -264,12 +258,28 @@ void List<T>::sort(Element<T>* first)
 	}
 }
 template<class T>
+bool List<T>::ascend()
+{
+	while (first->next)
+	{
+		Element<T>*currmin = first->next;
+		if (first->data >currmin->data)
+		{
+			return  false;
+		}
+		first = first->next;
+	}
+	return true;
+}
+
+
+template<class T>
 List<T> List<T>::merge(Element<T>* one, Element<T>* other) //we accept that for other(list) we do not know if it is sorted :D
 {
 	Element<T> *curr = other.first;
 	if (curr == nullptr) return;
 	else {
-		sortList(other);
+		sort(other);
 		while (curr->next)
 		{
 			last = curr->next;
@@ -278,34 +288,10 @@ List<T> List<T>::merge(Element<T>* one, Element<T>* other) //we accept that for 
 		last->next = other.first; //we connect the two lists :)
 		while (curr->next)
 		{
-			sortList(curr);
+			sort(curr);
 		}
 	}
 }
-//template<class T>
-//void List<T>::sort()
-//{
-//	if (first == nullptr)return;
-//	List<T>* crrNode = first;
-//	List<T>* nextNode;
-//	while (crrNode != nullptr)
-//	{
-//		nextNode = crrNode->next;
-//		while (nextNode)
-//		{
-//			if (nextNode->data < crrNode->data)
-//			{
-//				T save = crrNode->data;
-//				crrNode->data = nextNode->data;
-//				nextNode->data = save;
-//			}
-//			nextNode = nextNode->next;
-//		}
-//		crrNode = crrNode->next;
-//	}
-//}
-
-
 //Praktikum 
 template<class T>
 void List<T>::BubbleSort()
@@ -314,7 +300,6 @@ void List<T>::BubbleSort()
 	while (iterate)
 	{
 		Element<T>* one = first;
-
 		while (one)
 		{
 			if (one->next != nullptr && one->data > one->next->data)
@@ -322,14 +307,11 @@ void List<T>::BubbleSort()
 				T help = one->data;
 				one->data = one->next->data;
 				one->next->data = help;
-
 			}
 			one = one->next;
-
 		}
 		iterate = iterate->next;
 	}
-
 }
 template<class T>
 Element<T>* List<T>::func(int num)
@@ -369,15 +351,114 @@ int List<T>::sum(Element<T>* firstNum)
 	return fNum;
 
 }
+template<class T>
+bool List<T>::palindrome(Element<T>* first)
+{
+	List<T>*one = first;
+	while (one)
+	{
+		List<T> *current = last;
+		while (current && current!=one)
+		{
+			if (one->data != current->data)
+				return false;
+		}
+		current = last->previous;
+		first = first->next;
+	}
+	return false;
+}
+
+template<class T>
+void List<T>::push_back(const T& data) 
+{
+	Element<T>* toAdd = new Element<T>(data);
+	if (!first) {
+		last = first = toAdd;
+	}
+	else {
+		last->next = toAdd;
+		last = last->next;
+	}
+	currentSize++;
+}
+
+template<class T>
+void List<T>::push_front(const T& data) {
+	Element<T>* toAdd = new Element<T>(data, first);
+	first = toAdd;
+	if (!last) {
+		last = first;
+	}
+	currentSize++;
+}
+
+template<class T>
+void List<T>::pop_back() {
+	if (first) {
+		if (first == last) {
+			delete first;
+			first = last = nullptr;
+			return;
+		}
+		Element<T>* tempIterate = first;
+		while (tempIterate->next != last) {
+			tempIterate = tempIterate->next;
+		}
+		delete last;
+		last = tempIterate;
+		last->next = nullptr;
+		currentSize--;
+	}
+}
+
+template<class T>
+void List<T>::pop_front() {
+	if (first) {
+		if (first == last) {
+			delete first;
+			last = first = nullptr;
+			return;
+		}
+		Element<T>* toDelete = first;
+		first = first->next;
+		delete toDelete;
+		currentSize--;
+	}
+}
+
+template<class T>
+size_t List<T>::size() const {
+	return currentSize;
+}
+
+template<class T>
+bool List<T>::empty() const {
+	return first == nullptr;
+}
+
+template<class T>
+T List<T>::front() const {
+	assert(first);
+	return first->data;
+}
+
+template<class T>
+T List<T>::back() const {
+	assert(last);
+	return last->data;
+}
 
 int main()
 {
 	List<int> listche, listche2;
-	listche.func(654);
+	listche.func(12438);
 	listche.print();
 	listche2.func(321);
-	std::cout << "sort";
+	listche2.print();
 
+	//std::cout<< (listche.ascend());
+	std::cout << "sort";
 	listche.BubbleSort();
 	listche.print();
 
